@@ -12,4 +12,5 @@ public enum EContorlType
 public class PlayerSettings
 {
     public static EContorlType controlType;
+    public static string nickname;
 }
