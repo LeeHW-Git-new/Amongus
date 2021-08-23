@@ -8,7 +8,7 @@ public class SpwanPosition : MonoBehaviour
     private Transform[] positions;
 
     private int index;
-
+    public int Index { get { return index; } }
     public Vector3 GetSpawnPositon()
     {
         Vector3 pos = positions[index++].position;

@@ -21,7 +21,7 @@ public class RobbyCharacterMover : CharacterMover
     {
         if(hasAuthority)
         {
-            isMoveable = true;
+            IsMoveable = true;
         }
     }
 }
