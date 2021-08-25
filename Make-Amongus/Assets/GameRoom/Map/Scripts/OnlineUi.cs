@@ -28,6 +28,7 @@ public class OnlineUi : MonoBehaviour
     {
         if (nicknameInputField.text != "")
         {
+            PlayerSettings.nickname = nicknameInputField.text;
             var manger = AmongUsRoomManager.singleton;
             manger.StartClient();
         }

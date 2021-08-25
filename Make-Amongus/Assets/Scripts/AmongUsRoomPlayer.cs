@@ -33,6 +33,10 @@ public class AmongUsRoomPlayer : NetworkRoomPlayer
         LobbyUIManager.Instance.CustomizeUI.UpdateUnselectColorButton(oldColor);
         LobbyUIManager.Instance.CustomizeUI.UpdateSelectColorButton(newColor);
     }
+
+    [SyncVar]
+    public string nickname;
+
     public CharacterMover lobbyPlayerCharacter;
 
     private void Start()
@@ -42,12 +46,31 @@ public class AmongUsRoomPlayer : NetworkRoomPlayer
         if(isServer)
         {
             SpawnLobbyPlayerCharacter();
+            LobbyUIManager.Instance.ActiveStartsButton();
         }
+        LobbyUIManager.Instance.GameRoomPlayerCounter.UpdatePlayerCount();
+
+        if(isLocalPlayer)
+        {
+            CmdSetNickname(PlayerSettings.nickname);
+        }
+
     }
 
     private void OnDestroy()
     {
-        LobbyUIManager.Instance.CustomizeUI.UpdateUnselectColorButton(playerColor);
+        if(LobbyUIManager.Instance != null)
+        {
+            LobbyUIManager.Instance.GameRoomPlayerCounter.UpdatePlayerCount();
+            LobbyUIManager.Instance.CustomizeUI.UpdateUnselectColorButton(playerColor);
+        }
+    }
+
+    [Command]
+    public void CmdSetNickname(string nick)
+    {
+        nickname = nick;
+        lobbyPlayerCharacter.nickname = nick;
     }
 
     [Command] //Mirror API
