@@ -9309,7 +9309,7 @@ MonoBehaviour:
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
   authenticator: {fileID: 0}
-  playerPrefab: {fileID: 7777170190251791703, guid: 74820ca1deca27f49b28d82a9ffc0227, type: 3}
+  playerPrefab: {fileID: 7019183016089200429, guid: 4068ac015e85dfc4dbfbc7f1342ecf9a, type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
   spawnPrefabs:
