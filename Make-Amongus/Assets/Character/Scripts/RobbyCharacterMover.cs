@@ -13,7 +13,7 @@ public class RobbyCharacterMover : CharacterMover
         var players = FindObjectsOfType<AmongUsRoomPlayer>();
         foreach(var player in players)
         {
-            player.lobbyPlayerCharacter = this;
+            player.myCharacter = this;
             break;
         }
     }
