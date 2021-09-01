@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class CharacterMover : NetworkBehaviour
 {
-    private Animator animator;
+    protected Animator animator;
 
     private bool isMoveable;
     public bool IsMoveable
@@ -31,7 +31,7 @@ public class CharacterMover : NetworkBehaviour
     [SerializeField]
     private float cameraSize = 2.5f;
 
-    private SpriteRenderer spriteRenderer;
+    protected SpriteRenderer spriteRenderer;
 
     [SyncVar(hook = nameof(SetPlayerColor_Hook))]
     public EPlayerColor playerColor;

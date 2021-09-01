@@ -3,10 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
+//0x : 0 - 크루원      1 = 임포스터
+//x0 : 0 - 살아있음    1 = 죽음
+//00 = 살아있는 크루원 01 = 살아있는 임포트서
+//10 = 죽은크루원      11 = 죽은 임포스터
 public enum EPlayerType
 {
-    Crew,
-    Imposter
+    Crew = 0,
+    Imposter = 1,
+    Ghost = 2,
+    Crew_Alive = 0,
+    Imposter_Alive =1,
+    Grew_Ghsot = 2,
+    Imposter_Ghost = 3,
 }
 
 public class IngameCharacterMover : CharacterMover
@@ -107,11 +116,39 @@ public class IngameCharacterMover : CharacterMover
 
         if(target != null)
         {
-            var manager = NetworkRoomManager.singleton as AmongUsRoomManager;
-            var deadbody = Instantiate(manager.spawnPrefabs[1], target.transform.position, target.transform.rotation).GetComponent<Deadbody>();
-            NetworkServer.Spawn(deadbody.gameObject);
-            deadbody.RpcSetColor(target.playerColor);
+            RpcTeleport(target.transform.position);
+            target.Dead(playerColor);
             killCooldown = GameSystem.Instance.killCooldown;
+        }
+    }
+
+    public void Dead(EPlayerColor imposterColor)
+    {
+        RpcDead(imposterColor, playerColor);
+        var manager = NetworkRoomManager.singleton as AmongUsRoomManager;
+        var deadbody = Instantiate(manager.spawnPrefabs[1], transform.position, transform.rotation).GetComponent<Deadbody>();
+        NetworkServer.Spawn(deadbody.gameObject);
+        deadbody.RpcSetColor(playerColor);
+    }
+
+    [ClientRpc]
+    private void RpcDead(EPlayerColor imposterColor, EPlayerColor crewColor)
+    {
+        if(hasAuthority)
+        {
+            animator.SetBool("isGhost", true);
+            IngameUIManager.Instance.KillUI.Open(imposterColor, crewColor);
+        }
+        else
+        {
+            var myPlayer = AmongUsRoomPlayer.MyRoomPlayer.myCharacter as IngameCharacterMover;
+            if(((int)myPlayer.playerType & 0x02)!=(int)EPlayerType.Ghost)
+            {
+                var color = PlayerColor.GetColor(playerColor);
+                color.a = 0f;
+                spriteRenderer.material.SetColor("_PlayerColor", color);
+                nicknameText.text = "";
+            }
         }
     }
 }
