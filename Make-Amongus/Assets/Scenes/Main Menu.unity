@@ -9274,6 +9274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Port: 7777
+  DualMode: 1
   NoDelay: 1
   Interval: 10
   Timeout: 10000
@@ -9281,6 +9282,7 @@ MonoBehaviour:
   CongestionWindow: 0
   SendWindowSize: 4096
   ReceiveWindowSize: 4096
+  NonAlloc: 1
   debugLog: 0
   statisticsGUI: 0
   statisticsLog: 0
@@ -9314,6 +9316,7 @@ MonoBehaviour:
   playerSpawnMethod: 0
   spawnPrefabs:
   - {fileID: 2153824156498522554, guid: 098acaaa8c69612408e3636ba27a264a, type: 3}
+  - {fileID: 6745940126143923234, guid: d75925e31fe52ff41823d873995080a4, type: 3}
   showRoomGUI: 0
   minPlayers: 1
   roomPlayerPrefab: {fileID: 4793889806013382975, guid: fe1e53486e7317c4f983814549e4e14d, type: 3}

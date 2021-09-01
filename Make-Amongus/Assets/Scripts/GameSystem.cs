@@ -15,6 +15,13 @@ public class GameSystem : NetworkBehaviour
     [SerializeField]
     private float spawnDistance;
 
+    [SyncVar]
+    public float killCooldown;
+
+    [SyncVar]
+    public int killRange;
+
+
     public void AddPlayer(IngameCharacterMover player)
     {
         if(!players.Contains(player))
@@ -26,7 +33,10 @@ public class GameSystem : NetworkBehaviour
     private IEnumerator GameReady()
     {
         var manager = NetworkManager.singleton as AmongUsRoomManager;
-        while(manager.roomSlots.Count != players.Count)
+        killCooldown = manager.gameRuleData.killCooldown;
+        killRange = (int)manager.gameRuleData.killRange;
+
+        while (manager.roomSlots.Count != players.Count)
         {
             yield return null;
         }
@@ -53,6 +63,11 @@ public class GameSystem : NetworkBehaviour
 
         yield return new WaitForSeconds(2f);
         RpcStarGame();
+        
+        foreach(var player in players)
+        {
+            player.SetKillCooldown();
+        }
 
     }
 
