@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.Universal;
 using Mirror;
 
 public class GameSystem : NetworkBehaviour
@@ -20,6 +21,15 @@ public class GameSystem : NetworkBehaviour
 
     [SyncVar]
     public int killRange;
+
+    [SerializeField]
+    private Light2D shadowLight;
+
+    [SerializeField]
+    private Light2D lightMapLight;
+
+    [SerializeField]
+    private Light2D globalLight;
 
 
     public void AddPlayer(IngameCharacterMover player)
@@ -116,9 +126,19 @@ public class GameSystem : NetworkBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ChangeLightMode(EPlayerType type)
     {
-        
+        if(type == EPlayerType.Ghost)
+        {
+            lightMapLight.lightType = Light2D.LightType.Global;
+            shadowLight.intensity = 0f;
+            globalLight.intensity = 1f;
+        }
+        else
+        {
+            lightMapLight.lightType = Light2D.LightType.Point;
+            shadowLight.intensity = 0.5f;
+            globalLight.intensity = 0.5f;
+        }
     }
 }
