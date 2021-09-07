@@ -141,4 +141,15 @@ public class GameSystem : NetworkBehaviour
             globalLight.intensity = 0.5f;
         }
     }
+
+    public void StartReportMeeting(EPlayerColor deadbodyColor)
+    {
+        RpcSendReportSign(deadbodyColor);
+    }
+
+    [ClientRpc]
+    private void RpcSendReportSign(EPlayerColor deadbodyColor)
+    {
+        IngameUIManager.Instance.ReportUI.Open(deadbodyColor);
+    }
 }

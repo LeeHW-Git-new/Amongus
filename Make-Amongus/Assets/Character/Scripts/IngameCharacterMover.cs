@@ -42,6 +42,8 @@ public class IngameCharacterMover : CharacterMover
 
 
     public bool isKillable { get { return killCooldown < 0f && playerFinder.targets.Count != 0f; } }
+
+    public EPlayerColor foundDeadbodyColor;
     
     [ClientRpc]
     public void RpcTeleport(Vector3 position)
@@ -165,6 +167,17 @@ public class IngameCharacterMover : CharacterMover
         {
             collider.enabled = false;
         }
+    }
+
+    public void Report()
+    {
+        CmdReport(foundDeadbodyColor);
+    }
+
+    [Command]
+    public void CmdReport(EPlayerColor deadbodyColor)
+    {
+        GameSystem.Instance.StartReportMeeting(deadbodyColor);
     }
     public void SetVisibility(bool isVsible)
     {
